@@ -13,7 +13,7 @@ class ItemsService {
         const items = await cursor.map(item => {
             return {
                 _key: item._key,
-                title: item.title,
+                name: item.name,
                 image_url: `http://localhost:3333/uploads/${item.image}`
             }
         })
