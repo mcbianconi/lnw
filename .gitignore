@@ -1,1 +1,4 @@
 node_modules/
+volumes/
+server/build
+yarn-error.log

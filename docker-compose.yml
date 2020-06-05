@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  db:
+    image: arangodb:3.6.4
+    container_name: arangodb
+    volumes:
+      - ./volumes/arangodb:/var/lib/arangodb3
+    ports:
+      - 8529:8529
+    environment:
+      - ARANGO_ROOT_PASSWORD=lnw
