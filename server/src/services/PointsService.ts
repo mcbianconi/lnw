@@ -1,4 +1,5 @@
 import { aql } from 'arangojs';
+import slugify from 'slugify';
 import conn from '../database/connection';
 
 const db = conn.db
@@ -24,6 +25,7 @@ class PointsService {
         const trx = await db.beginTransaction([Collects, Points])
 
         try {
+            point.city = slugify(point.city, {lower: true})
             const model = await Points.save(point)
             point.items.forEach(async item => {
                 const data = {
@@ -41,14 +43,17 @@ class PointsService {
         }
     }
 
-    async list(filters: { city: any; uf: any; items: any; }) {
+    async list(filters: { city: any; uf: any; items: string[]; }) {
         let point_filters = []
 
         const {city, uf, items} = filters
 
-        if (uf) point_filters.push(aql`FILTER p.uf == ${filters.uf}`)
+        if (uf) point_filters.push(aql`FILTER p.uf == ${uf}`)
 
-        if (city) point_filters.push(aql`FILTER p.city == ${filters.city}`)
+        if (city) {
+            const citySlug = slugify(city, {lower: true})
+            point_filters.push(aql`FILTER p.city == ${citySlug}`)
+        }
 
         items.forEach(item => {
             point_filters.push(aql`FILTER ${item} in p.items`)

@@ -34,7 +34,7 @@ router.get('/items/:id', async (request, response) => {
 
 router.post('/points', async (request, response) => {
     const {name,email,whatsapp,latitude,longitude,city,uf,items} = request.body
-    const point = await pointsService.create({name, email, whatsapp, latitude, longitude, city, uf, items})
+    const point = await pointsService.create({name, email, whatsapp, latitude, longitude, city , uf, items})
     response.json(point)
 })
 

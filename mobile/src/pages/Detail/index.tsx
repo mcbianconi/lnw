@@ -1,16 +1,59 @@
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import * as MailComposer from 'expo-mail-composer';
+import React, { useEffect, useState } from 'react';
+import { Image, Linking, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { RectButton, TouchableOpacity } from 'react-native-gesture-handler';
+import api from '../../services/api';
 
+interface Params {
+    point_key: string
+}
 
+interface Item {
+    _key: string,
+    name: string,
+    image_url: string,
+}
+
+interface Point {
+    name: string,
+    email: string,
+    whatsapp: string,
+    latitude: number,
+    longitude: number,
+    city: string,
+    uf: string,
+    items: string[],
+    image: string
+}
 
 const Detail = () => {
     const navigation = useNavigation()
+    const route  = useRoute()
+    const routeParams = route.params as Params
+
+    const [point, setPoint] = useState<Point>({} as Point)
+    useEffect(() => {
+        const ENDPOINT = `points/${routeParams.point_key}`
+        api.get<Point>(ENDPOINT).then(response => {
+            setPoint(response.data)
+        })
+    }, [])
 
     function handleNavigateBack() {
         navigation.goBack()
+    }
+
+    function handleComposeEmail () {
+        MailComposer.composeAsync({
+            subject: 'Interesse na coleta de resíduos',
+            recipients: [point.email]
+        })
+    }
+
+    function handleZapZap () {
+        Linking.openURL(`whatsapp://send?phone=${point.whatsapp}&text=Tenho Interesse!`)
     }
 
     return (
@@ -20,24 +63,24 @@ const Detail = () => {
                     <Icon name="arrow-left" size={20} color="#34cb79"></Icon>
                 </TouchableOpacity>
 
-                <Image style={styles.pointImage} source={{ uri: 'https://images.unsplash.com/photo-1498579397066-22750a3cb424?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=30' }}></Image>
+                <Image style={styles.pointImage} source={ { uri: point.image} }></Image>
 
-                <Text style={styles.pointName}>Mercadin</Text>
-                <Text style={styles.pointItems}>Bateria, Óleo e papelão</Text>
+                <Text style={styles.pointName}>{point.name}</Text>
+                <Text style={styles.pointItems}>{point.items ? point.items.join(', ') : ''}</Text>
 
                 <View style={styles.address}>
-                    <Text style={styles.addressTitle}>Nome da Rua</Text>
-                    <Text style={styles.addressContent}>Cidade, UF</Text>
+                    <Text style={styles.addressTitle}>Endereço</Text>
+                    <Text style={styles.addressContent}>{point.city}, {point.uf}</Text>
                 </View>
 
 
             </View>
             <View style={styles.footer}>
-                <RectButton style={styles.button} onPress={() => { }}>
+                <RectButton style={styles.button} onPress={handleZapZap}>
                     <FontAwesome name="whatsapp" color="#FFF" size={20} />
                     <Text style={styles.buttonText}>Whatsapp</Text>
                 </RectButton>
-                <RectButton style={styles.button} onPress={() => { }}>
+                <RectButton style={styles.button} onPress={handleComposeEmail}>
                     <Icon name="mail" color="#FFF" size={20} />
                     <Text style={styles.buttonText}>Email</Text>
                 </RectButton>

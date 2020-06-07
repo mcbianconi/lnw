@@ -127,7 +127,7 @@ const CreatePoint = () => {
 
     useEffect( () => {
         const ENDPOINT = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`
-        api.get<Cidade[]>(ENDPOINT).then(
+        axios.get<Cidade[]>(ENDPOINT).then(
             response => {
                 setCities(response.data)
             }
