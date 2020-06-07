@@ -1,5 +1,6 @@
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import Axios from 'axios';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
@@ -9,6 +10,18 @@ import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
 import api from '../../services/api';
 
+
+interface Endereco {
+    bairro: string,
+    cep: string,
+    complemento: string,
+    gia: string,
+    ibge: string,
+    localidade: string,
+    logradouro: string,
+    uf: string,
+    unidade: string,
+}
 
 interface Item {
     _key: string,
@@ -38,7 +51,8 @@ const Points = () => {
     const [items, setItems] = useState<Item[]>([])
     const [poins, setPoints] = useState<Point[]>([])
     const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0])
-
+    const [selectedUF, setSelectedUF] = useState<string>('')
+    const [selectedCity, setSelectedCity] = useState<string>('')
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
 
@@ -64,12 +78,11 @@ const Points = () => {
     useEffect(() => {
         api.get('points', {
             params: {
-                city: routeParams.selectedCity,
-                uf: routeParams.selectedUF,
+                city: selectedCity,
+                uf: selectedUF,
                 items: selectedItems
             }
         }).then(response => {
-            console.log(response.data)
             setPoints(response.data)
         })
     }, [selectedItems])
@@ -84,14 +97,18 @@ const Points = () => {
             }
 
             const location = await Location.getCurrentPositionAsync()
-
+            const address_list = await Location.reverseGeocodeAsync(location.coords)
             const {latitude, longitude} = location.coords
-
             setInitialPosition([latitude, longitude])
+            console.debug(address_list)
+            const address = address_list[0]
 
-            const addres = await Location.reverseGeocodeAsync(location.coords)
-            console.debug(addres)
-
+            if (address && address.postalCode) {
+                const endereco = (await Axios.get<Endereco>(`https://viacep.com.br/ws/${address.postalCode}/json/`)).data
+                console.debug(endereco)
+                setSelectedUF(endereco.uf)
+                setSelectedCity(endereco.localidade)
+            }
         }
 
         loadPosition()
@@ -115,7 +132,8 @@ const Points = () => {
                 </TouchableOpacity>
 
                 <Text style={styles.title}>Bem vindo</Text>
-                <Text style={styles.description}>Encontre pontos de coleta em {routeParams.selectedCity}</Text>
+                <Text style={styles.subtitle}>Encontre pontos de coleta</Text>
+                <Text style={styles.description}>{selectedCity} - {selectedUF}</Text>
 
                 <View style={styles.mapContainer}>
                     {
@@ -181,6 +199,13 @@ const styles = StyleSheet.create({
     },
 
     description: {
+        color: '#6C6C70',
+        fontSize: 12,
+        marginTop: 4,
+        fontFamily: 'Roboto_400Regular',
+    },
+
+    subtitle: {
         color: '#6C6C80',
         fontSize: 16,
         marginTop: 4,

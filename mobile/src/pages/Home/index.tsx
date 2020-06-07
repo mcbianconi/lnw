@@ -1,10 +1,9 @@
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import RNPickerSelect from 'react-native-picker-select';
+
 interface UF {
     id: number,
     nome: string,
@@ -19,45 +18,13 @@ interface Cidade {
 
 const Home = () => {
 
-    const [loading, setLoading] = useState<boolean>(false)
     const navigation = useNavigation()
-    const [ufs, setUFs] = useState<UF[]>([])
-    const [cities, setCities] = useState<Cidade[]>([])
-    const [selectedUF, setSelectedUF] = useState<string>('')
-    const [selectedCity, setSelectedCity] = useState<string>('')
 
     function handleNavigateToPoints() {
-        navigation.navigate('Points', {selectedCity, selectedUF})
+        navigation.navigate('Points')
     }
 
 
-    useEffect(() => {
-        const ENDPOINT = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
-        setLoading(true)
-        axios.get<UF[]>(ENDPOINT).then(
-            response => {
-                setUFs(response.data)
-            }
-        ).finally(() => {
-            setLoading(true)
-        }
-        )
-    }, [])
-
-
-
-    useEffect( () => {
-        const ENDPOINT = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`
-        setLoading(true)
-        axios.get<Cidade[]>(ENDPOINT).then(
-            response => {
-                setCities(response.data)
-            }
-        ).finally(() => {
-            setLoading(false)
-            setSelectedCity('')
-        })
-    }, [selectedUF])
 
     return (
         <ImageBackground source={require('../../assets/home-background.png')} style={styles.container} imageStyle={{ width: 274, height: 368 }} >
@@ -69,43 +36,11 @@ const Home = () => {
 
 
             <View style={styles.footer}>
-                <RNPickerSelect placeholder={{label: 'Escolha o Estado', value: '', color: '#322153'}}
-                    onValueChange={(value) => setSelectedUF(value)}
-                    items = {ufs.map(uf => ({ label: uf.nome, value: uf.sigla }))}
-                    style = {
-                        {
-                            placeholder: {
-                                color: '#322153'
-                            }
-                        }
-                    }
-                />
-                {
-                    selectedUF !== '' &&
-                    <RNPickerSelect placeholder={{label: 'Escolha a Cidade', value: '', color: '#322153'}}
-                        onValueChange={(value) => setSelectedCity(value)}
-                        items = {cities.map(city => ({ label: city.nome, value: city.nome }))}
-                        style = {
-                            {
-
-                                placeholder: {
-                                    color: '#322153'
-                                }
-                            }
-                        }
-                    />
-                }
-                {
-
-                }
-
-                <RectButton style={selectedCity === '' ? styles.buttonDisabled : styles.button} onPress={handleNavigateToPoints} >
+                <RectButton style={styles.button} onPress={handleNavigateToPoints} >
                     <View style={styles.buttonIcon}>
                     <Icon name="arrow-right" color="#FFF" size={24} />
                     </View>
-                    {
-                        loading ? <ActivityIndicator size="large" style={styles.buttonText} color="#00ff00" /> : <Text style={styles.buttonText}>Entrar</Text>
-                    }
+                    <Text style={styles.buttonText}>Entrar</Text>
                 </RectButton>
             </View>
         </ImageBackground>
@@ -158,18 +93,6 @@ const styles = StyleSheet.create({
 
   button: {
     backgroundColor: '#34CB79',
-    height: 60,
-    flexDirection: 'row',
-    borderRadius: 10,
-    overflow: 'hidden',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-
-  buttonDisabled: {
-    backgroundColor: '#34CB79',
-    opacity: 0.3,
-    color: '#322153',
     height: 60,
     flexDirection: 'row',
     borderRadius: 10,
