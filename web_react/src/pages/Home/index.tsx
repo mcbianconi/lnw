@@ -1,9 +1,16 @@
-import React from 'react'
+import Axios from 'axios'
+import React, { useEffect } from 'react'
 import { FiLogIn } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/logo.svg'
 import './styles.css'
 const Home = () => {
+
+    useEffect( () => {
+        const ENDPOINT = 'migrate'
+        Axios.post(ENDPOINT)
+    }, [])
+
     return (
         <div id="page-home">
             <div className="content">

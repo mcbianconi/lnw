@@ -15,7 +15,7 @@ router.get('/', async (request, response) => {
     return response.json(r)
 })
 
-router.get('/db', async (request, response) => {
+router.post('/migrate', async (request, response) => {
     conn.check_integrity(db)
     return response.json('done')
 })
