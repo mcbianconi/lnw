@@ -4,6 +4,7 @@
 ## Projeto
 Sistema para cadastro/consulta de pontos de coleta de materiais recicláveis,
 feito durante a Lext Nevel Week #01, um evento online da Rocketseat em homenagem a semana do meio ambiente.
+![](capa.png)
 
 ## Stack
 - [Backend](/server) : `Typescript` +  `Node.js `
@@ -13,7 +14,6 @@ feito durante a Lext Nevel Week #01, um evento online da Rocketseat em homenagem
 ## Diferenciais
 
 ### Database
-
 [ArangoDB](https://www.arangodb.com/) : Um database baseado em chave/valor, documentos e  grafos.
 
 Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da interface web do BD*, visualmente tirar insights a respeito do ecossistema criado com a aplicação, tudo isso feito em * poucos minutos* e sem necessidade de nenhuma dependência extra.

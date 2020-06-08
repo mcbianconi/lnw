@@ -1,6 +1,7 @@
 # Next Level Week #01
 
 ## Backend
+![](ArangoDB-logo-sq.png)
 - Instalar as dependências: `yarn install`
 - Iniciar o servidor: `yarn prod`
 
