@@ -29,7 +29,6 @@ services:
       - ARANGO_NO_AUTH=1
     networks:
       - app-network
-# curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"xyz"}' http://localhost:8529/_api/user
 
 networks:
   app-network:

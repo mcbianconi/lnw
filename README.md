@@ -1,14 +1,53 @@
+![Banner](https://github.com/mcbianconi/images/blob/master/banner.png)
 # Ecoleta
-> Work in progress!
 
 ## Projeto
 Sistema para cadastro/consulta de pontos de coleta de materiais recicláveis,
-feito durante a Lext Nevel Week, um evento online da Rocketseat em homenagem a semana do meio ambiente.
+feito durante a Lext Nevel Week #01, um evento online da Rocketseat em homenagem a semana do meio ambiente.
 
-## Content
-- [x] [Backend](/server)
-- [x] [Frontend Web](./web_react)
-- [ ] Frontend Mobo (pausado aula 4, 1h47)
+## Stack
+- [Backend](/server) : `Typescript` +  `Node.js `
+- [Frontend Web](./web_react) : `React`
+- [Frontend Mobile](./mobile) : `React Native` + [Expo](https://expo.io/)
 
 ## Diferenciais
-- Database usado: [ArangoDB](https://www.arangodb.com/)
+
+### Database
+
+[ArangoDB](https://www.arangodb.com/) : Um database baseado em chave/valor, documentos e  grafos.
+
+Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da interface web do BD*, visualmente tirar insights a respeito do ecossistema criado com a aplicação, tudo isso feito em * poucos minutos* e sem necessidade de nenhuma dependência extra.
+![](exemplo_grafo.png)
+
+## How To
+
+### Database
+1. Iniciar o database `docker-compose up`
+
+2. Criar o usuário do banco `curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"lnw"}' http://localhost:8529/_api/user`
+
+### Backend
+Entrar na pasta do projeto `cd server`, instalar as dependências `yarn install`, iniciar o servidor `yarn prod`
+
+### Front Web
+Entrar na pasta do projeto `cd web_react` , instalar as dependências `yarn install` e iniciar o servidor `yarn start`
+
+### Mobile
+Entrar na pasta do projeto `cd mobile` , instalar as dependências `yarn install` , iniciar o servidor expo `yarn start`
+
+
+## Ideias de próximos passos
+- [ ] Dockerizar todo o ambiente de dev
+- [ ] Hardening de segurança
+- [ ] Fazer deloy em um cloud provider
+- [ ] Implementar o backend no [Deno](https://deno.land/) e fazer testes de performance
+
+---
+
+
+## whoami
+> Murillo Cesar Bianconi
+
+Você pode me achar no [Linkedin](https://www.linkedin.com/in/mcbianconi/), nas redes sociais como @mcbianconi ou através do meu [email](mailto:murillo.ianconi@gmail.com)
+
+![End Banner](https://github.com/mcbianconi/images/blob/master/readme-footer.png)
