@@ -23,9 +23,12 @@ Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da int
 ## How To
 
 ### Database
-1. Iniciar o database `docker-compose up`
+1. Iniciar o database: `docker-compose up`
 
-2. Criar o usuário da aplicação `curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"lnw"}' http://localhost:8529/_api/user`
+2. Criar o usuário da aplicação
+```
+curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"lnw"}' http://localhost:8529/_api/user
+```
 
 ### Backend
 Entrar na pasta do projeto `cd server` e seguir as [instruções](/server)
