@@ -14,7 +14,7 @@ class ItemsService {
             return {
                 _key: item._key,
                 name: item.name,
-                image_url: `http://192.168.0.28:3333/uploads/${item.image}`
+                image_url: `http://192.168.0.28:3333/uploads/items/${item.image}`
             }
         })
         return items

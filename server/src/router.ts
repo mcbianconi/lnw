@@ -1,23 +1,19 @@
+import { celebrate, Joi } from 'celebrate';
 import express from 'express';
-import conn from './database/connection';
+import multer from 'multer';
+import multerConfig from './config/multer';
 import ItemsService from './services/ItemsService';
 import PointsService from './services/PointsService';
 
-const db = conn.db
-
 const router = express.Router()
+const upload = multer(multerConfig)
 
 const pointsService = new PointsService()
 const itemsService = new ItemsService()
 
 router.get('/', async (request, response) => {
-    const r = await db.collections()
+    const r = "welcome"
     return response.json(r)
-})
-
-router.post('/migrate', async (request, response) => {
-    conn.check_integrity(db)
-    return response.json('done')
 })
 
 router.get('/items', async (request, response) => {
@@ -32,9 +28,28 @@ router.get('/items/:id', async (request, response) => {
 })
 
 
-router.post('/points', async (request, response) => {
+router.post(
+    '/points',
+     upload.single('image'),
+     celebrate({
+         body: Joi.object().keys({
+             name: Joi.string().required(),
+             email: Joi.string().required().email(),
+             whatsapp: Joi.string().required(),
+             latitude: Joi.number().required(),
+             longitude: Joi.number().required(),
+             city: Joi.string().required(),
+             uf: Joi.string().required().max(2),
+             items: Joi.string().required(),
+         })
+     }, {
+         abortEarly: false
+     }),
+     async (request, response) => {
     const {name,email,whatsapp,latitude,longitude,city,uf,items} = request.body
-    const point = await pointsService.create({name, email, whatsapp, latitude, longitude, city , uf, items})
+    const items_array = items.split(',').map((item:string) => item.trim())
+    const image = request.file.filename
+    const point = await pointsService.create({name, email, whatsapp, image, latitude, longitude, city , uf, items: items_array})
     response.json(point)
 })
 

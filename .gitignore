@@ -1,4 +1,10 @@
-node_modules/
+mobile/node_modules
+web_react/node_modules
+server/node_modules
 volumes/
 server/build
 yarn-error.log
+.yarn_cache/*
+!.yarn_cache/.gitkeep
+server/assets/points/*
+!server/assets/points/.gitkeep

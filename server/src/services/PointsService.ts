@@ -13,7 +13,7 @@ interface Point {
     city: string,
     uf: string,
     items: string[],
-    image?: string[]
+    image: string
 }
 class PointsService {
 
@@ -61,15 +61,13 @@ class PointsService {
 
         const POINT_FILTERS = aql.join(point_filters)
         const QUERY = aql`
-        FOR p IN points ${POINT_FILTERS}
-            RETURN MERGE (p, {
-                items: DOCUMENT('items', p.items),
-                image: 'https://images.unsplash.com/photo-1498579397066-22750a3cb424?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=30'
-            })`
+        FOR p IN points ${POINT_FILTERS} RETURN MERGE (p, { items: DOCUMENT('items', p.items)})`
+        console.debug(QUERY)
 
         const cursor = await db.query(QUERY);
-        const result = await cursor.all()
-        return result
+        let points = await cursor.all()
+        points = points.map((point: Point) => ({...point, image_url: `http://192.168.0.28:3333/uploads/points/${point.image}`}))
+        return points
     }
 
     async get(handle: any) {

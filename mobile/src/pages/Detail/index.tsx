@@ -25,7 +25,8 @@ interface Point {
     city: string,
     uf: string,
     items: string[],
-    image: string
+    image: string,
+    image_url: string
 }
 
 const Detail = () => {
@@ -63,7 +64,7 @@ const Detail = () => {
                     <Icon name="arrow-left" size={20} color="#34cb79"></Icon>
                 </TouchableOpacity>
 
-                <Image style={styles.pointImage} source={ { uri: point.image} }></Image>
+                <Image style={styles.pointImage} source={ { uri: point.image_url } }></Image>
 
                 <Text style={styles.pointName}>{point.name}</Text>
                 <Text style={styles.pointItems}>{point.items ? point.items.join(', ') : ''}</Text>

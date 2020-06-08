@@ -1,14 +1,11 @@
 import { Database } from "arangojs";
 
-
-
-
-
 async function createDb(db: Database) {
     const exist = await db.exists();
     if (!exist) {
         await db.createDatabase("ecoleta", [{ username: "lnw", passwd: "lnw" }]);
     }
+    return db
 }
 
 async function createPoints(db: Database) {
@@ -18,6 +15,7 @@ async function createPoints(db: Database) {
         collection.create({waitForSync: true})
         collection.createGeoIndex(["latitude", "longitude"])
     }
+    return db
 }
 
 async function createItems(db: Database) {
@@ -35,6 +33,7 @@ async function createItems(db: Database) {
         ]
         collection.save(items)
     }
+    return db
 }
 
 async function createCollect(db: Database) {
@@ -43,6 +42,7 @@ async function createCollect(db: Database) {
     if (!exist) {
         collection.create({waitForSync: true})
     }
+    return db
 }
 
 export default {createDb: createDb, createItems: createItems, createPoints: createPoints, createCollect: createCollect}

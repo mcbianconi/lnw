@@ -5,6 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import { Map, Marker, TileLayer } from 'react-leaflet'
 import { Link, useHistory } from 'react-router-dom'
 import logo from '../../assets/logo.svg'
+import Dropzone from '../../components/Dropzone'
 import api from '../../services/api'
 import './styles.css'
 
@@ -35,11 +36,12 @@ const CreatePoint = () => {
     const [ufs, setUFs] = useState<UF[]>([])
     const [cities, setCities] = useState<Cidade[]>([])
 
-    const [selectedUF, setSelectedUF] = useState<string>()
-    const [selectedCity, setSelectedCity] = useState<string>()
+    const [selectedUF, setSelectedUF] = useState<string>('')
+    const [selectedCity, setSelectedCity] = useState<string>('')
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0])
     const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0])
     const [selectedItems, setSelectedItems] = useState<string[]>([])
+    const [selectedFile, setSelectedFile] = useState<File>()
 
     const history = useHistory()
 
@@ -58,15 +60,21 @@ const CreatePoint = () => {
         const [latitude, longitude] = selectedPosition
         const items = selectedItems
 
-        const data = {
-            name,
-            email,
-            whatsapp,
-            uf,
-            city,
-            latitude,
-            longitude,
-            items
+
+        console.log(selectedFile)
+
+        const data = new FormData()
+        data.append('name', name)
+        data.append('email', email)
+        data.append('whatsapp', whatsapp)
+        data.append('uf', uf)
+        data.append('city', city)
+        data.append('latitude', String(latitude))
+        data.append('longitude', String(longitude))
+        data.append('items', items.join(','))
+
+        if (selectedFile) {
+            data.append('image', selectedFile)
         }
 
         const ENDPOINT = 'points'
@@ -154,6 +162,7 @@ const CreatePoint = () => {
             </header>
             <form onSubmit={handleSubmit}>
                 <h1>Cadastro do <br /> ponto de coleta</h1>
+                <Dropzone onFileUpload={setSelectedFile} />
                 <fieldset>
                     <legend><h2>Dados</h2></legend>
 

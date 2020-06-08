@@ -1,12 +1,40 @@
 version: '3'
 
 services:
+  # backend:
+
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   container_name: backend
+  #   ports:
+  #     - 3333:3333
+  #   # volumes:
+  #   #   - ./server:/home/node/app
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - db
+
+
   db:
     image: arangodb:3.6.4
     container_name: arangodb
     volumes:
-      - ./volumes/arangodb:/var/lib/arangodb3
+      - dbdata:/var/lib/arangodb3
     ports:
       - 8529:8529
     environment:
-      - ARANGO_ROOT_PASSWORD=lnw
+      - ARANGO_NO_AUTH=1
+    networks:
+      - app-network
+# curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"xyz"}' http://localhost:8529/_api/user
+
+networks:
+  app-network:
+    driver: bridge
+
+
+volumes:
+  dbdata:
