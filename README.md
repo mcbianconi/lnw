@@ -17,6 +17,7 @@ feito durante a Lext Nevel Week #01, um evento online da Rocketseat em homenagem
 [ArangoDB](https://www.arangodb.com/) : Um database baseado em chave/valor, documentos e  grafos.
 
 Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da interface web do BD*, visualmente tirar insights a respeito do ecossistema criado com a aplicação, tudo isso feito em * poucos minutos* e sem necessidade de nenhuma dependência extra.
+
 ![](exemplo_grafo.png)
 
 ## How To
@@ -24,16 +25,16 @@ Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da int
 ### Database
 1. Iniciar o database `docker-compose up`
 
-2. Criar o usuário do banco `curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"lnw"}' http://localhost:8529/_api/user`
+2. Criar o usuário da aplicação `curl --header "Content-Type: application/json" --request POST --dump - --data '{"user":"lnw","passwd":"lnw"}' http://localhost:8529/_api/user`
 
 ### Backend
-Entrar na pasta do projeto `cd server`, instalar as dependências `yarn install`, iniciar o servidor `yarn prod`
+Entrar na pasta do projeto `cd server` e seguir as [instruções](/server)
 
 ### Front Web
-Entrar na pasta do projeto `cd web_react` , instalar as dependências `yarn install` e iniciar o servidor `yarn start`
+Entrar na pasta do projeto `cd web_react` e seguir as [instruções](/server)
 
 ### Mobile
-Entrar na pasta do projeto `cd mobile` , instalar as dependências `yarn install` , iniciar o servidor expo `yarn start`
+Entrar na pasta do projeto `cd mobile` e seguir as [instruções](/server)
 
 
 ## Ideias de próximos passos
