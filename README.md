@@ -31,10 +31,10 @@ Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da int
 Entrar na pasta do projeto `cd server` e seguir as [instruções](/server)
 
 ### Front Web
-Entrar na pasta do projeto `cd web_react` e seguir as [instruções](/server)
+Entrar na pasta do projeto `cd web_react` e seguir as [instruções](/web_react)
 
 ### Mobile
-Entrar na pasta do projeto `cd mobile` e seguir as [instruções](/server)
+Entrar na pasta do projeto `cd mobile` e seguir as [instruções](/mobile)
 
 
 ## Ideias de próximos passos
