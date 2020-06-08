@@ -16,7 +16,7 @@ feito durante a Lext Nevel Week #01, um evento online da Rocketseat em homenagem
 ### Database
 [ArangoDB](https://www.arangodb.com/) : Um database baseado em chave/valor, documentos e  grafos.
 
-Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da interface web do BD*, visualmente tirar insights a respeito do ecossistema criado com a aplicação, tudo isso feito em * poucos minutos* e sem necessidade de nenhuma dependência extra.
+Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da interface web do BD*, visualmente tirar insights a respeito do ecossistema criado com a aplicação, tudo isso feito em *poucos minutos* e sem necessidade de nenhuma dependência extra.
 
 ![](exemplo_grafo.png)
 
@@ -41,7 +41,10 @@ Entrar na pasta do projeto `cd mobile` e seguir as [instruções](/mobile)
 
 
 ## Ideias de próximos passos
-- [ ] Dockerizar todo o ambiente de dev
+- [ ] Dockerizar o ambiente de dev e produção
+- [ ] Isolar configurações em variáveis de ambiente
+- [ ] Busca baseada em *Raio de Km* a partir da localização do usuário.
+- [ ] Exibição de grafos para o usuário através da interface da aplicação
 - [ ] Hardening de segurança
 - [ ] Fazer deloy em um cloud provider
 - [ ] Implementar o backend no [Deno](https://deno.land/) e fazer testes de performance
