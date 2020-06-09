@@ -20,6 +20,8 @@ Modelar os pontos de coleta e itens em forma de grafo permitiu, *através da int
 
 ![](exemplo_grafo.png)
 
+Nesse contexto, por exemplo, dá pra perceber que temos um excesso de estabelecimentos coletando resíduos orgânicos porém nenhum coletando resíduos eletrônicos!
+
 ## How To
 
 ### Database
